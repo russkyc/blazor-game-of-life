@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "blazor-game-of-life",
   "resources": {
-    "hash": "sha256-Yuei4XDdN61fEWWIC//Ff/733FxxM09+Aw9L1UdmRoM=",
+    "hash": "sha256-b8Zbvs5FDFYxXSS0F9bI2g5uQn1/KjrqTPTgdf1oKPI=",
     "jsModuleNative": {
       "dotnet.native.8.0.2.jgt5nhn140.js": "sha256-gPMK16QWoJSTxorlZJqcVtbBRTniIQWlLsJN2O4cJHg="
     },
@@ -17,7 +17,7 @@
       "icudt_no_CJK.dat": "sha256-L7sV7NEYP37/Qr2FPCePo5cJqRgTXRwGHuwF5Q+0Nfs="
     },
     "assembly": {
-      "blazor-game-of-life.wasm": "sha256-aP3e82zZ31bWXKCR69QZoonOH/7nB7yaK6ebXo3gj/M=",
+      "blazor-game-of-life.wasm": "sha256-T0o5U91w6XPyPucIUmQ6XDuWYXEXs3jhmf618BppAYI=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-my0vFZho2bM+9AtP3uEu0h0IDCMqMWqhF96dnmC5CvM=",
       "Microsoft.AspNetCore.Components.Web.wasm": "sha256-0KisFlCQGsFQexOgjsJ2pZiu6mZAgVpvKoIM5ngHeD4=",
       "Microsoft.AspNetCore.Components.WebAssembly.wasm": "sha256-jrdFRjrF1131MZ3HGQVsI3dX8cLdZvPz85lsBltxjSM=",
