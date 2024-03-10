@@ -1,0 +1,113 @@
+﻿@page "/"
+
+<PageTitle>Conway's Game of Life</PageTitle>
+
+<div class="flex h-screen w-screen bg-[#0f172a]">
+    <div class="flex flex-col m-auto gap-4">
+        <h2 class="mx-auto text-lg font-bold text-white">Conway's Game of Life</h2>
+        <div class="rounded-sm bg-[#1e293b] p-0.5 grid grid-cols-[repeat(20,minmax(auto,26px))] grid-rows-[repeat(20,minmax(auto,26px))] gap-0.5">
+            @foreach (var cell in _cells)
+            {
+                if (cell.Alive)
+                {
+                    <div @onclick="@(() => SwitchCellState(cell))" class="rounded-sm bg-[#f1f1f7] text-[4px]"></div>
+                }
+                else
+                {
+                    <div @onclick="@(() => SwitchCellState(cell))" class="rounded-sm bg-[#0f172a] text-white text-[4px]"></div>
+                }
+            }
+        </div>
+        <button @onclick="@Start" class="bg-blue-700 hover:bg-blue-500 active:bg-blue-800 text-white font-bold py-2 px-4 rounded">
+            @(_isSimulating ? "Stop" : "Simulate")
+        </button>
+    </div>
+</div>
+
+@code
+{
+    private int grid = 20;
+    private bool _isSimulating;
+    private readonly List<Cell> _cells = new();
+
+    protected override void OnInitialized()
+    {
+        int row = 0;
+        int column = 0;
+        foreach (var _ in Enumerable.Range(0, grid * grid))
+        {
+            _cells.Add(
+                new Cell
+                {
+                    Row = row,
+                    Column = column
+                });
+            if (column >= grid - 1)
+            {
+                row++;
+                column = 0;
+                continue;
+            }
+            column++;
+        }
+    }
+
+    void SwitchCellState(Cell cell)
+    {
+        if (_isSimulating)
+        {
+            return;
+        }
+        
+        cell.AliveState = !cell.AliveState;
+        cell.Alive = cell.AliveState;
+    }
+
+    private async Task Start()
+    {
+        _isSimulating = !_isSimulating;
+        while (_isSimulating)
+        {
+            _cells.ForEach(SetCellState);
+            _cells.ForEach(UpdateCellView);
+            await InvokeAsync(StateHasChanged);
+            await Task.Delay(5);
+        }
+    }
+
+    private void UpdateCellView(Cell cell)
+    {
+        cell.Alive = cell.AliveState;
+    }
+
+    private void SetCellState(Cell cell)
+    {
+        var aliveNeighbors = GetActiveNeighbors(cell);
+
+        if (cell.AliveState)
+        {
+            cell.AliveState = aliveNeighbors == 2 || aliveNeighbors == 3;
+            return;
+        }
+
+        cell.AliveState = aliveNeighbors == 3;
+    }
+
+    private int GetActiveNeighbors(Cell cell)
+    {
+        return _cells.Where(neighborCell =>
+                (neighborCell.Column >= cell.Column - 1 && neighborCell.Column <= cell.Column + 1)
+                && (neighborCell.Row >= cell.Row - 1 && neighborCell.Row <= cell.Row + 1)
+                && neighborCell != cell)
+            .Count(neighbor => neighbor.Alive);
+    }
+
+    public record Cell
+    {
+        public int Row { get; set; }
+        public int Column { get; set; }
+        public bool Alive { get; set; }
+        public bool AliveState { get; set; }
+    }
+
+}
