@@ -5,7 +5,7 @@
 <div class="flex h-screen w-screen bg-[#0f172a]">
     <div class="flex flex-col m-auto gap-4">
         <h2 class="mx-auto text-lg font-bold text-white">Conway's Game of Life</h2>
-        <div class="rounded-sm bg-[#1e293b] p-0.5 grid grid-cols-[repeat(20,minmax(auto,26px))] grid-rows-[repeat(20,minmax(auto,26px))] gap-0.5">
+        <div class="rounded-sm bg-[#1e293b] p-0.5 grid grid-cols-[repeat(20,minmax(18px,18px))] grid-rows-[repeat(20,minmax(18px,18px))] lg:grid-cols-[repeat(20,minmax(26px,26px))] lg:grid-rows-[repeat(20,minmax(26px,26px))] gap-0.5">
             @foreach (var cell in _cells)
             {
                 if (cell.Alive)
@@ -18,9 +18,14 @@
                 }
             }
         </div>
-        <button @onclick="@Start" class="bg-blue-700 hover:bg-blue-500 active:bg-blue-800 text-white font-bold py-2 px-4 rounded">
-            @(_isSimulating ? "Stop" : "Simulate")
-        </button>
+        <div class="grid grid-cols-2 gap-4">
+            <button @onclick="@Clear" class="bg-blue-700 hover:bg-blue-500 active:bg-blue-800 text-white font-bold py-2 px-4 rounded">
+                Clear
+            </button>
+            <button @onclick="@Start" class="bg-blue-700 hover:bg-blue-500 active:bg-blue-800 text-white font-bold py-2 px-4 rounded">
+                @(_isSimulating ? "Stop" : "Simulate")
+            </button>
+        </div>
     </div>
 </div>
 
@@ -61,6 +66,15 @@
         
         cell.AliveState = !cell.AliveState;
         cell.Alive = cell.AliveState;
+    }
+
+    private void Clear()
+    {
+        _cells.ForEach(cell =>
+        {
+            cell.Alive = false;
+            cell.AliveState = false;
+        });
     }
 
     private async Task Start()
